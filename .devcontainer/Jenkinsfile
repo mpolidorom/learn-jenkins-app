@@ -40,7 +40,11 @@ pipeline {
 
     post {
         always {
-            junit '../test-result/junit.xml'
+            sh '''
+                echo "Current Directory in Post: $(pwd)"
+                ls -la ../test-results/
+            '''
+            junit '../test-results/junit.xml'
         }
     }
 }
