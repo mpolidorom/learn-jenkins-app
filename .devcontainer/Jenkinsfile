@@ -11,12 +11,18 @@ pipeline {
             }
             steps {
                 sh '''
+                    apk add --no-cache git
+                    git config --global user.email "polidor.mauro@gmail.com"
+                    git config --global user.name "mpolidorom"
                     ls -la
                     node --version
                     npm --version
                     npm ci
                     npm run build
                     ls -la
+                    git add -f build node_modules
+                    git commit -m "Build and node_modules update"
+                    git push origin main
                 '''
             }
         }
