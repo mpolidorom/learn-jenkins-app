@@ -47,7 +47,7 @@ pipeline {
             steps {
                 sh '''
                     npm install serve                   # prepara l'app
-                    node_modules\serve -s build &       # serve l'app in node
+                    node_modules/.bin/serve -s build &       # serve l'app in node
                     sleep 10
                     npm playwright test                 # starta il test
                 '''
