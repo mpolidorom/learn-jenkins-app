@@ -61,7 +61,7 @@ pipeline {
                 echo "Current Directory in Post: $(pwd)"
                 ls -la test-results/
             ''' */
-            junit 'test-results/junit.xml'
+            junit 'jest-results/junit.xml'
         }
     }
 }
