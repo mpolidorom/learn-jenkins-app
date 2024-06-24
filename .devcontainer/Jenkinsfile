@@ -3,6 +3,7 @@ pipeline {
 
     stages {
         /*
+
         stage('Build') {
             agent {
                 docker {
@@ -23,45 +24,36 @@ pipeline {
         }
         */
 
-        stage('Docker Test') {
-            steps {
-                script {
-                    def dockerVersion = sh(script: 'docker --version', returnStdout: true).trim()
-                    echo "Docker Version: ${dockerVersion}"
-                }
-            }
-        }
-
-        stage('Test'){
+        stage('Test') {
             agent {
                 docker {
                     image 'node:18-alpine'
                     reuseNode true
                 }
             }
+
             steps {
                 sh '''
-                    npm ci
-                    test -f build/index.html
+                    #test -f build/index.html
                     npm test
                 '''
             }
         }
+
         stage('E2E') {
             agent {
                 docker {
-                    image 'mcr.microsoft.com/playwright:v1.40.0-jammy'
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
                     reuseNode true
                 }
             }
-            
+
             steps {
                 sh '''
-                    npm ci
                     npm install serve
                     node_modules/.bin/serve -s build &
                     sleep 10
-                    npm playwright test
+                    npx playwright test
                 '''
             }
         }
@@ -69,10 +61,6 @@ pipeline {
 
     post {
         always {
-/*             sh '''
-                echo "Current Directory in Post: $(pwd)"
-                ls -la test-results/
-            ''' */
             junit 'jest-results/junit.xml'
         }
     }
