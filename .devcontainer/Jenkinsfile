@@ -22,6 +22,17 @@ pipeline {
             }
         }
         */
+
+        stages {
+        stage('Docker Test') {
+            steps {
+                script {
+                    def dockerVersion = sh(script: 'docker --version', returnStdout: true).trim()
+                    echo "Docker Version: ${dockerVersion}"
+                }
+            }
+        }
+        
         stage('Test'){
             agent {
                 docker {
@@ -36,13 +47,14 @@ pipeline {
                 '''
             }
         }
-        stage('E2E'){
+        stage('E2E') {
             agent {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.40.0-jammy'
                     reuseNode true
                 }
             }
+            
             steps {
                 sh '''
                     npm install serve
