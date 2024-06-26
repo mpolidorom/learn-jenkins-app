@@ -2,10 +2,11 @@ pipeline {
     agent any
 
     environment {
-        NETLIFY_SITE_ID = '8fa99018-6769-4ac4-bd26-fb9db320bdf4'
+        /* NETLIFY_SITE_ID = '8fa99018-6769-4ac4-bd26-fb9db320bdf4' */
+        NETLIFY_SITE_ID = 'YOUR NETLIFY SITE ID'
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
         /* REACT_APP_VERSION = '1.2.3' */
-        REACT_APP_VERSION = "1.2.$BUILD_ID"
+        REACT_APP_VERSION = "1.0.$BUILD_ID"
     }
 
     stages {
@@ -51,6 +52,7 @@ pipeline {
                     }
                     steps {
                         sh '''
+                            #test -f build/index.html
                             npm test
                         '''
                     }
@@ -137,6 +139,7 @@ pipeline {
             steps {
                 sh '''
                     node --version
+
                     netlify --version
                     echo "Deploying to production. Site ID: $NETLIFY_SITE_ID "
                     netlify status
