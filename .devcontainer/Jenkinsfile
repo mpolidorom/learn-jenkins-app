@@ -15,8 +15,7 @@ pipeline {
                 sh '''
                     echo "Current directory: $(pwd)"
                     ls -l
-                    ls -l ../Dockerfile
-                    docker build -t my-playwright -f ../Dockerfile ../
+                    docker build -t my-playwright .
                 '''
             }
         }
