@@ -12,7 +12,11 @@ pipeline {
 
         stage('Docker') {
             steps {
-                sh 'docker build -t my-playwright -f ../Dockerfile ../'
+                sh '''
+                    echo "Current directory: $(pwd)"
+                    ls -l ../Dockerfile
+                    docker build -t my-playwright -f ../Dockerfile ../
+                '''
             }
         }
 
