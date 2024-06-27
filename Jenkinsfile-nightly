@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Docker') {
+            steps {
+                sh '''
+                    echo "Current directory: $(pwd)"
+                    ls -l
+                    docker build -t my-playwright .
+                '''
+            }
+        }
+    }
+}
